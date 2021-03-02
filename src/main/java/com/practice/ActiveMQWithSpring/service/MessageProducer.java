@@ -16,13 +16,16 @@ public class MessageProducer {
     @Autowired
     JmsTemplate jmsTemplate;
 
-    @Value("${active-mq.topic}")
-    private String topic;
+    @Value("${active-mq.message.topic}")
+    private String messageTopic;
+
+    @Value("${active-mq.object.topic}")
+    private String objectTopic;
 
     public boolean sendMessage(String message) {
         try {
-            LOGGER.info("Attempting Send message to Topic: " + topic);
-            jmsTemplate.convertAndSend(topic, message);
+            LOGGER.info("Attempting Send message to Topic: " + messageTopic);
+            jmsTemplate.convertAndSend(messageTopic, message);
         } catch (Exception e) {
             LOGGER.info("Recieved Exception during send Message: " + e);
             return false;
@@ -32,8 +35,8 @@ public class MessageProducer {
 
     public boolean sendUser(User userObj) {
         try {
-            LOGGER.info("Attempting Send User Object to Topic: " + topic);
-            jmsTemplate.convertAndSend(topic, userObj);
+            LOGGER.info("Attempting Send User Object to Topic: " + objectTopic);
+            jmsTemplate.convertAndSend(objectTopic, userObj);
         } catch (Exception e) {
             LOGGER.info("Recieved Exception during send user object: " + e);
             return false;
